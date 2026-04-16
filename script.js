@@ -1,110 +1,50 @@
-let employees = [];
+function calculateResult(){
 
-function addEmployee() {
+let n = document.getElementById("subjects").value;
 
-    let name = document.getElementById("name").value;
-    let empId = document.getElementById("empId").value;
-    let salary = parseFloat(document.getElementById("salary").value);
-    let dept = document.getElementById("dept").value;
+let total = 0;
 
-    if (name === "" || empId === "" || isNaN(salary) || dept === "") {
-        alert("Please fill all fields properly");
-        return;
-    }
+for(let i=1; i<=n; i++){
 
-    let employee = {
-        name: name,
-        id: empId,
-        salary: salary,
-        department: dept
-    };
+let marks = parseFloat(prompt("Enter marks for Subject " + i));
 
-    employees.push(employee);
+total = total + marks;
 
-    alert("Employee Added Successfully");
-
-    document.getElementById("name").value = "";
-    document.getElementById("empId").value = "";
-    document.getElementById("salary").value = "";
-    document.getElementById("dept").value = "";
 }
 
-function displayEmployees() {
+let average = total / n;
 
-    let output = document.getElementById("output");
-    output.innerHTML = "";
+let grade;
 
-    employees.forEach(emp => {
-        output.innerHTML += 
-        "Name: " + emp.name + 
-        " | ID: " + emp.id + 
-        " | Salary: " + emp.salary + 
-        " | Department: " + emp.department + 
-        "<br>";
-    });
+if(average >= 90){
+grade = "A+";
+}
+else if(average >= 75){
+grade = "A";
+}
+else if(average >= 60){
+grade = "B";
+}
+else if(average >= 50){
+grade = "C";
+}
+else{
+grade = "Fail";
 }
 
-function filterSalary() {
+let result;
 
-    let output = document.getElementById("output");
-    output.innerHTML = "";
-
-    let filtered = employees.filter(emp => emp.salary > 50000);
-
-    filtered.forEach(emp => {
-        output.innerHTML += 
-        emp.name + " - " + emp.salary + "<br>";
-    });
+if(average >= 40){
+result = "Pass";
+}
+else{
+result = "Fail";
 }
 
-function totalSalary() {
+document.getElementById("result").innerHTML =
+"Total Marks: " + total + "<br>" +
+"Average Marks: " + average.toFixed(2) + "<br>" +
+"Grade: " + grade + "<br>" +
+"Result: " + result;
 
-    let total = 0;
-
-    employees.forEach(emp => {
-        total += emp.salary;
-    });
-
-    document.getElementById("output").innerHTML = 
-    "Total Salary = " + total;
-}
-
-function averageSalary() {
-
-    if (employees.length === 0) {
-        document.getElementById("output").innerHTML = "No employees";
-        return;
-    }
-
-    let total = 0;
-
-    employees.forEach(emp => {
-        total += emp.salary;
-    });
-
-    let avg = total / employees.length;
-
-    document.getElementById("output").innerHTML = 
-    "Average Salary = " + avg;
-}
-
-function countDepartment() {
-
-    let deptCount = {};
-
-    employees.forEach(emp => {
-        if (deptCount[emp.department]) {
-            deptCount[emp.department]++;
-        } else {
-            deptCount[emp.department] = 1;
-        }
-    });
-
-    let output = "";
-
-    for (let dept in deptCount) {
-        output += dept + " : " + deptCount[dept] + "<br>";
-    }
-
-    document.getElementById("output").innerHTML = output;
 }
