@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Typing Speed Test</title>
+  <title>Age Calculator</title>
 
   <style>
 
@@ -18,53 +18,42 @@
 
     .container{
       background: white;
-      width: 500px;
-      padding: 25px;
+      width: 350px;
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 0 10px gray;
       text-align: center;
+      box-shadow: 0 0 10px gray;
     }
 
     h1{
       margin-bottom: 20px;
     }
 
-    #quote{
-      font-size: 18px;
-      margin-bottom: 20px;
-      background: #eee;
-      padding: 15px;
-      border-radius: 5px;
-    }
-
-    textarea{
-      width: 100%;
-      height: 120px;
+    input{
+      width: 90%;
       padding: 10px;
+      margin-top: 10px;
       font-size: 16px;
-      border-radius: 5px;
-      border: 1px solid gray;
-      resize: none;
     }
 
     button{
-      margin-top: 15px;
+      margin-top: 20px;
       padding: 10px 20px;
+      font-size: 16px;
       background: blue;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     button:hover{
       background: darkblue;
     }
 
-    .result{
+    #result{
       margin-top: 20px;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
     }
 
@@ -75,48 +64,52 @@
 
   <div class="container">
 
-    <h1>Typing Speed Test</h1>
+    <h1>Age Calculator</h1>
 
-    <div id="quote">
-      JavaScript is a powerful programming language used for web development.
-    </div>
-
-    <textarea
-      id="input"
-      placeholder="Start typing here..."
-    ></textarea>
+    <input type="date" id="dob">
 
     <br>
 
-    <button onclick="calculateSpeed()">
-      Check Speed
+    <button onclick="calculateAge()">
+      Calculate Age
     </button>
 
-    <div class="result" id="result"></div>
+    <div id="result"></div>
 
   </div>
 
   <script>
 
-    let startTime = new Date().getTime();
+    function calculateAge(){
 
-    function calculateSpeed(){
+      let dob =
+      document.getElementById("dob").value;
 
-      let endTime = new Date().getTime();
+      if(dob === ""){
+        alert("Please select your date of birth");
+        return;
+      }
 
-      let totalTime = (endTime - startTime) / 1000;
+      let birthDate = new Date(dob);
 
-      let typedText =
-      document.getElementById("input").value;
+      let today = new Date();
 
-      let wordCount =
-      typedText.trim().split(" ").length;
+      let age =
+      today.getFullYear() - birthDate.getFullYear();
 
-      let speed =
-      Math.round((wordCount / totalTime) * 60);
+      let monthDifference =
+      today.getMonth() - birthDate.getMonth();
+
+      if(
+        monthDifference < 0 ||
+        (monthDifference === 0 &&
+        today.getDate() < birthDate.getDate())
+      ){
+        age--;
+      }
 
       document.getElementById("result").innerHTML =
-      "Typing Speed: " + speed + " WPM";
+      "Your Age is " + age + " years";
     }
 
   </script>
