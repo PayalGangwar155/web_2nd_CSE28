@@ -1,22 +1,35 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import App from './App.css'
-import Student from './project.jsx'
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-
-    <>
-    <h2>Student Information</h2>
-    <Student name="Raj" course="B.tech" marks="90"/>
-    <Student name="Ram" course="M.tech" marks="95"/>
-    <Student name="Rohan" course="MCA" marks="98"/>
-
-    </>
-  )
-}
-
+import { useState } from 'react' 
+import './App.css' 
+function App() { 
+const [name, setName] = useState("") 
+const [email, setEmail] = useState("") 
+const [password, setPassword] = useState("") 
+function showData() { 
+if(name === "" || email === "" || password === ""){ 
+      alert("Please Fill All Fields") 
+    } 
+    else{ 
+      alert("Registered Successfully") 
+    } 
+  } 
+  return ( 
+    <> 
+      <h2>Registration Form</h2> 
+      <input type="text" placeholder="Enter Your Name" 
+onChange={(e)=>setName(e.target.value)}  />  <br /><br /> 
+      <input type="email"placeholder="Enter Your Email" 
+        onChange={(e) => setEmail(e.target.value)} /><br /><br 
+/> 
+<input type="password"placeholder="Enter Your Password" 
+        onChange={(e) => setPassword(e.target.value)} /><br 
+/><br /> 
+      <p>Name: {name}</p> 
+      <p>Email: {email}</p> 
+      <p>Password: {password}</p> 
+      <button onClick={showData}> 
+Submit 
+</button> 
+</> 
+) 
+} 
 export default App
