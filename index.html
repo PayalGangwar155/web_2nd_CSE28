@@ -3,50 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz App</title>
+  <title>Color Changer App</title>
 
   <style>
     body{
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      transition: 0.5s;
     }
 
-    .quiz-container{
+    .container{
       background: white;
-      width: 400px;
-      padding: 25px;
+      padding: 30px;
       border-radius: 10px;
+      text-align: center;
       box-shadow: 0 0 10px gray;
     }
 
-    h2{
+    h1{
       margin-bottom: 20px;
     }
 
-    .option{
-      display: block;
-      background: #eee;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .option:hover{
-      background: #dcdcdc;
-    }
-
     button{
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: blue;
-      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
       border: none;
       border-radius: 5px;
+      background: blue;
+      color: white;
       cursor: pointer;
     }
 
@@ -54,113 +41,43 @@
       background: darkblue;
     }
 
-    #result{
+    #colorCode{
+      margin-top: 20px;
       font-size: 20px;
-      text-align: center;
+      font-weight: bold;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="quiz-container">
+  <div class="container">
+    <h1>Color Changer App</h1>
 
-    <h2 id="question">Question</h2>
+    <button onclick="changeColor()">
+      Change Color
+    </button>
 
-    <div id="options"></div>
-
-    <button onclick="nextQuestion()">Next</button>
-
-    <h3 id="result"></h3>
-
+    <p id="colorCode">Color Code</p>
   </div>
 
   <script>
 
-    const quizData = [
-      {
-        question: "What does HTML stand for?",
-        options: [
-          "Hyper Text Markup Language",
-          "High Text Machine Language",
-          "Hyper Tool Multi Language",
-          "Home Text Markup Language"
-        ],
-        answer: "Hyper Text Markup Language"
-      },
+    function changeColor(){
 
-      {
-        question: "Which language is used for styling webpages?",
-        options: ["HTML", "CSS", "Python", "C++"],
-        answer: "CSS"
-      },
+      const letters = "0123456789ABCDEF";
 
-      {
-        question: "Which language is used for webpage functionality?",
-        options: ["Java", "C", "JavaScript", "Python"],
-        answer: "JavaScript"
+      let color = "#";
+
+      for(let i = 0; i < 6; i++){
+        color += letters[Math.floor(Math.random() * 16)];
       }
-    ];
 
-    let currentQuestion = 0;
-    let score = 0;
+      document.body.style.backgroundColor = color;
 
-    function loadQuestion(){
-
-      const questionData = quizData[currentQuestion];
-
-      document.getElementById("question").innerText =
-      questionData.question;
-
-      const optionsContainer =
-      document.getElementById("options");
-
-      optionsContainer.innerHTML = "";
-
-      questionData.options.forEach(option => {
-
-        const button = document.createElement("button");
-
-        button.innerText = option;
-
-        button.classList.add("option");
-
-        button.onclick = function(){
-          selectAnswer(option);
-        };
-
-        optionsContainer.appendChild(button);
-      });
+      document.getElementById("colorCode").innerText =
+      color;
     }
-
-    function selectAnswer(selected){
-
-      const correctAnswer =
-      quizData[currentQuestion].answer;
-
-      if(selected === correctAnswer){
-        score++;
-      }
-    }
-
-    function nextQuestion(){
-
-      currentQuestion++;
-
-      if(currentQuestion < quizData.length){
-        loadQuestion();
-      }
-      else{
-        document.querySelector(".quiz-container").innerHTML = `
-          <h2 id="result">
-            Quiz Finished! <br>
-            Your Score: ${score}/${quizData.length}
-          </h2>
-        `;
-      }
-    }
-
-    loadQuestion();
 
   </script>
 
