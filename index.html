@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Age Calculator</title>
+  <title>Rock Paper Scissors</title>
 
   <style>
 
     body{
-      font-family: Arial, sans-serif;
+      font-family: Arial;
       background: #f2f2f2;
       display: flex;
       justify-content: center;
@@ -18,28 +18,16 @@
 
     .container{
       background: white;
-      width: 350px;
       padding: 30px;
-      border-radius: 10px;
       text-align: center;
+      border-radius: 10px;
       box-shadow: 0 0 10px gray;
     }
 
-    h1{
-      margin-bottom: 20px;
-    }
-
-    input{
-      width: 90%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 16px;
-    }
-
     button{
-      margin-top: 20px;
-      padding: 10px 20px;
-      font-size: 16px;
+      padding: 12px 20px;
+      margin: 10px;
+      font-size: 18px;
       background: blue;
       color: white;
       border: none;
@@ -53,7 +41,7 @@
 
     #result{
       margin-top: 20px;
-      font-size: 20px;
+      font-size: 22px;
       font-weight: bold;
     }
 
@@ -64,15 +52,11 @@
 
   <div class="container">
 
-    <h1>Age Calculator</h1>
+    <h1>Rock Paper Scissors</h1>
 
-    <input type="date" id="dob">
-
-    <br>
-
-    <button onclick="calculateAge()">
-      Calculate Age
-    </button>
+    <button onclick="play('Rock')">Rock</button>
+    <button onclick="play('Paper')">Paper</button>
+    <button onclick="play('Scissors')">Scissors</button>
 
     <div id="result"></div>
 
@@ -80,36 +64,37 @@
 
   <script>
 
-    function calculateAge(){
+    function play(userChoice){
 
-      let dob =
-      document.getElementById("dob").value;
+      let choices = ["Rock", "Paper", "Scissors"];
 
-      if(dob === ""){
-        alert("Please select your date of birth");
-        return;
+      let computerChoice =
+      choices[Math.floor(Math.random() * 3)];
+
+      let result = "";
+
+      if(userChoice === computerChoice){
+        result = "It's a Draw!";
       }
 
-      let birthDate = new Date(dob);
-
-      let today = new Date();
-
-      let age =
-      today.getFullYear() - birthDate.getFullYear();
-
-      let monthDifference =
-      today.getMonth() - birthDate.getMonth();
-
-      if(
-        monthDifference < 0 ||
-        (monthDifference === 0 &&
-        today.getDate() < birthDate.getDate())
+      else if(
+        (userChoice === "Rock" && computerChoice === "Scissors") ||
+        (userChoice === "Paper" && computerChoice === "Rock") ||
+        (userChoice === "Scissors" && computerChoice === "Paper")
       ){
-        age--;
+        result = "You Win!";
+      }
+
+      else{
+        result = "Computer Wins!";
       }
 
       document.getElementById("result").innerHTML =
-      "Your Age is " + age + " years";
+      `
+      You: ${userChoice} <br>
+      Computer: ${computerChoice} <br><br>
+      ${result}
+      `;
     }
 
   </script>
