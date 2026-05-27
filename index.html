@@ -3,114 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculator</title>
+  <title>Weather App</title>
 
   <style>
     body{
+      font-family: Arial, sans-serif;
+      background: #87CEEB;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
-      background: #f2f2f2;
-      font-family: Arial;
     }
 
-    .calculator{
+    .container{
       background: white;
-      padding: 20px;
+      padding: 25px;
       border-radius: 10px;
+      text-align: center;
+      width: 300px;
       box-shadow: 0 0 10px gray;
     }
 
-    #display{
-      width: 100%;
-      height: 50px;
-      margin-bottom: 15px;
-      font-size: 22px;
-      text-align: right;
-      padding-right: 10px;
-    }
-
-    .buttons{
-      display: grid;
-      grid-template-columns: repeat(4, 70px);
-      gap: 10px;
+    input{
+      width: 80%;
+      padding: 10px;
+      margin-bottom: 10px;
     }
 
     button{
-      height: 50px;
-      font-size: 20px;
+      padding: 10px 15px;
+      background: blue;
+      color: white;
       border: none;
       border-radius: 5px;
-      background: #007BFF;
-      color: white;
       cursor: pointer;
     }
 
     button:hover{
-      background: #0056b3;
+      background: darkblue;
     }
 
-    .equal{
-      background: green;
-    }
-
-    .clear{
-      background: red;
+    #weatherResult{
+      margin-top: 20px;
+      font-size: 18px;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="calculator">
-    
-    <input type="text" id="display" disabled>
+  <div class="container">
+    <h2>Weather App</h2>
 
-    <div class="buttons">
-      <button onclick="appendValue('7')">7</button>
-      <button onclick="appendValue('8')">8</button>
-      <button onclick="appendValue('9')">9</button>
-      <button onclick="appendValue('/')">/</button>
+    <input type="text" id="city" placeholder="Enter city name">
+    <br>
 
-      <button onclick="appendValue('4')">4</button>
-      <button onclick="appendValue('5')">5</button>
-      <button onclick="appendValue('6')">6</button>
-      <button onclick="appendValue('*')">*</button>
+    <button onclick="getWeather()">Get Weather</button>
 
-      <button onclick="appendValue('1')">1</button>
-      <button onclick="appendValue('2')">2</button>
-      <button onclick="appendValue('3')">3</button>
-      <button onclick="appendValue('-')">-</button>
-
-      <button onclick="appendValue('0')">0</button>
-      <button onclick="appendValue('.')">.</button>
-      <button class="equal" onclick="calculate()">=</button>
-      <button onclick="appendValue('+')">+</button>
-
-      <button class="clear" onclick="clearDisplay()">C</button>
-    </div>
-
+    <div id="weatherResult"></div>
   </div>
 
   <script>
-    function appendValue(value){
-      document.getElementById("display").value += value;
-    }
+    async function getWeather(){
 
-    function calculate(){
-      let display = document.getElementById("display");
+      const city = document.getElementById("city").value;
+
+      const apiKey = "YOUR_API_KEY";
+
+      const url =
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
       try{
-        display.value = eval(display.value);
-      }
-      catch{
-        display.value = "Error";
-      }
-    }
 
-    function clearDisplay(){
-      document.getElementById("display").value = "";
+        const response = await fetch(url);
+        const data = await response.json();
+
+        if(data.cod == "404"){
+          document.getElementById("weatherResult").innerHTML =
+          "City not found";
+          return;
+        }
+
+        document.getElementById("weatherResult").innerHTML = `
+          <h3>${data.name}</h3>
+          <p>Temperature: ${data.main.temp} °C</p>
+          <p>Weather: ${data.weather[0].main}</p>
+          <p>Humidity: ${data.main.humidity}%</p>
+        `;
+
+      }
+      catch(error){
+        document.getElementById("weatherResult").innerHTML =
+        "Something went wrong";
+      }
     }
   </script>
 
