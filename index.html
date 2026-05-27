@@ -3,35 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather App</title>
+  <title>Quiz App</title>
 
   <style>
     body{
       font-family: Arial, sans-serif;
-      background: #87CEEB;
+      background: #f2f2f2;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
     }
 
-    .container{
+    .quiz-container{
       background: white;
+      width: 400px;
       padding: 25px;
       border-radius: 10px;
-      text-align: center;
-      width: 300px;
       box-shadow: 0 0 10px gray;
     }
 
-    input{
-      width: 80%;
+    h2{
+      margin-bottom: 20px;
+    }
+
+    .option{
+      display: block;
+      background: #eee;
+      margin: 10px 0;
       padding: 10px;
-      margin-bottom: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .option:hover{
+      background: #dcdcdc;
     }
 
     button{
-      padding: 10px 15px;
+      margin-top: 20px;
+      padding: 10px 20px;
       background: blue;
       color: white;
       border: none;
@@ -43,60 +54,114 @@
       background: darkblue;
     }
 
-    #weatherResult{
-      margin-top: 20px;
-      font-size: 18px;
+    #result{
+      font-size: 20px;
+      text-align: center;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h2>Weather App</h2>
+  <div class="quiz-container">
 
-    <input type="text" id="city" placeholder="Enter city name">
-    <br>
+    <h2 id="question">Question</h2>
 
-    <button onclick="getWeather()">Get Weather</button>
+    <div id="options"></div>
 
-    <div id="weatherResult"></div>
+    <button onclick="nextQuestion()">Next</button>
+
+    <h3 id="result"></h3>
+
   </div>
 
   <script>
-    async function getWeather(){
 
-      const city = document.getElementById("city").value;
+    const quizData = [
+      {
+        question: "What does HTML stand for?",
+        options: [
+          "Hyper Text Markup Language",
+          "High Text Machine Language",
+          "Hyper Tool Multi Language",
+          "Home Text Markup Language"
+        ],
+        answer: "Hyper Text Markup Language"
+      },
 
-      const apiKey = "YOUR_API_KEY";
+      {
+        question: "Which language is used for styling webpages?",
+        options: ["HTML", "CSS", "Python", "C++"],
+        answer: "CSS"
+      },
 
-      const url =
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
-
-      try{
-
-        const response = await fetch(url);
-        const data = await response.json();
-
-        if(data.cod == "404"){
-          document.getElementById("weatherResult").innerHTML =
-          "City not found";
-          return;
-        }
-
-        document.getElementById("weatherResult").innerHTML = `
-          <h3>${data.name}</h3>
-          <p>Temperature: ${data.main.temp} °C</p>
-          <p>Weather: ${data.weather[0].main}</p>
-          <p>Humidity: ${data.main.humidity}%</p>
-        `;
-
+      {
+        question: "Which language is used for webpage functionality?",
+        options: ["Java", "C", "JavaScript", "Python"],
+        answer: "JavaScript"
       }
-      catch(error){
-        document.getElementById("weatherResult").innerHTML =
-        "Something went wrong";
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion(){
+
+      const questionData = quizData[currentQuestion];
+
+      document.getElementById("question").innerText =
+      questionData.question;
+
+      const optionsContainer =
+      document.getElementById("options");
+
+      optionsContainer.innerHTML = "";
+
+      questionData.options.forEach(option => {
+
+        const button = document.createElement("button");
+
+        button.innerText = option;
+
+        button.classList.add("option");
+
+        button.onclick = function(){
+          selectAnswer(option);
+        };
+
+        optionsContainer.appendChild(button);
+      });
+    }
+
+    function selectAnswer(selected){
+
+      const correctAnswer =
+      quizData[currentQuestion].answer;
+
+      if(selected === correctAnswer){
+        score++;
       }
     }
+
+    function nextQuestion(){
+
+      currentQuestion++;
+
+      if(currentQuestion < quizData.length){
+        loadQuestion();
+      }
+      else{
+        document.querySelector(".quiz-container").innerHTML = `
+          <h2 id="result">
+            Quiz Finished! <br>
+            Your Score: ${score}/${quizData.length}
+          </h2>
+        `;
+      }
+    }
+
+    loadQuestion();
+
   </script>
 
 </body>
