@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BMI Calculator</title>
+  <title>Password Generator</title>
 
   <style>
 
@@ -28,11 +28,12 @@
     input{
       width: 90%;
       padding: 10px;
-      margin: 10px 0;
-      font-size: 16px;
+      font-size: 18px;
+      text-align: center;
     }
 
     button{
+      margin-top: 15px;
       padding: 10px 20px;
       background: blue;
       color: white;
@@ -45,12 +46,6 @@
       background: darkblue;
     }
 
-    #result{
-      margin-top: 20px;
-      font-size: 20px;
-      font-weight: bold;
-    }
-
   </style>
 </head>
 
@@ -58,65 +53,35 @@
 
   <div class="container">
 
-    <h1>BMI Calculator</h1>
+    <h1>Password Generator</h1>
 
-    <input
-      type="number"
-      id="weight"
-      placeholder="Enter Weight (kg)"
-    >
+    <input type="text" id="password" readonly>
 
-    <input
-      type="number"
-      id="height"
-      placeholder="Enter Height (m)"
-      step="0.01"
-    >
+    <br>
 
-    <button onclick="calculateBMI()">
-      Calculate BMI
+    <button onclick="generatePassword()">
+      Generate Password
     </button>
-
-    <div id="result"></div>
 
   </div>
 
   <script>
 
-    function calculateBMI(){
+    function generatePassword(){
 
-      let weight =
-      document.getElementById("weight").value;
+      let chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$";
 
-      let height =
-      document.getElementById("height").value;
+      let password = "";
 
-      let bmi =
-      (weight / (height * height)).toFixed(2);
+      for(let i = 0; i < 8; i++){
 
-      let status = "";
-
-      if(bmi < 18.5){
-        status = "Underweight";
+        password +=
+        chars.charAt(Math.floor(Math.random() * chars.length));
       }
 
-      else if(bmi < 25){
-        status = "Normal Weight";
-      }
-
-      else if(bmi < 30){
-        status = "Overweight";
-      }
-
-      else{
-        status = "Obese";
-      }
-
-      document.getElementById("result").innerHTML =
-      `
-      BMI: ${bmi} <br>
-      ${status}
-      `;
+      document.getElementById("password").value =
+      password;
     }
 
   </script>
