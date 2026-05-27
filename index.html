@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Rock Paper Scissors</title>
+  <title>BMI Calculator</title>
 
   <style>
 
@@ -19,15 +19,21 @@
     .container{
       background: white;
       padding: 30px;
-      text-align: center;
       border-radius: 10px;
+      text-align: center;
       box-shadow: 0 0 10px gray;
+      width: 350px;
+    }
+
+    input{
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
     }
 
     button{
-      padding: 12px 20px;
-      margin: 10px;
-      font-size: 18px;
+      padding: 10px 20px;
       background: blue;
       color: white;
       border: none;
@@ -41,7 +47,7 @@
 
     #result{
       margin-top: 20px;
-      font-size: 22px;
+      font-size: 20px;
       font-weight: bold;
     }
 
@@ -52,11 +58,24 @@
 
   <div class="container">
 
-    <h1>Rock Paper Scissors</h1>
+    <h1>BMI Calculator</h1>
 
-    <button onclick="play('Rock')">Rock</button>
-    <button onclick="play('Paper')">Paper</button>
-    <button onclick="play('Scissors')">Scissors</button>
+    <input
+      type="number"
+      id="weight"
+      placeholder="Enter Weight (kg)"
+    >
+
+    <input
+      type="number"
+      id="height"
+      placeholder="Enter Height (m)"
+      step="0.01"
+    >
+
+    <button onclick="calculateBMI()">
+      Calculate BMI
+    </button>
 
     <div id="result"></div>
 
@@ -64,36 +83,39 @@
 
   <script>
 
-    function play(userChoice){
+    function calculateBMI(){
 
-      let choices = ["Rock", "Paper", "Scissors"];
+      let weight =
+      document.getElementById("weight").value;
 
-      let computerChoice =
-      choices[Math.floor(Math.random() * 3)];
+      let height =
+      document.getElementById("height").value;
 
-      let result = "";
+      let bmi =
+      (weight / (height * height)).toFixed(2);
 
-      if(userChoice === computerChoice){
-        result = "It's a Draw!";
+      let status = "";
+
+      if(bmi < 18.5){
+        status = "Underweight";
       }
 
-      else if(
-        (userChoice === "Rock" && computerChoice === "Scissors") ||
-        (userChoice === "Paper" && computerChoice === "Rock") ||
-        (userChoice === "Scissors" && computerChoice === "Paper")
-      ){
-        result = "You Win!";
+      else if(bmi < 25){
+        status = "Normal Weight";
+      }
+
+      else if(bmi < 30){
+        status = "Overweight";
       }
 
       else{
-        result = "Computer Wins!";
+        status = "Obese";
       }
 
       document.getElementById("result").innerHTML =
       `
-      You: ${userChoice} <br>
-      Computer: ${computerChoice} <br><br>
-      ${result}
+      BMI: ${bmi} <br>
+      ${status}
       `;
     }
 
