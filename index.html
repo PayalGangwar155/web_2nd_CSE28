@@ -2,166 +2,39 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hostel Management System</title>
-
-  <style>
-
-    body{
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 20px;
-    }
-
-    .container{
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px gray;
-    }
-
-    h1{
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input{
-      width: 95%;
-      padding: 10px;
-      margin: 10px 0;
-      font-size: 16px;
-    }
-
-    button{
-      padding: 10px 20px;
-      background: blue;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    button:hover{
-      background: darkblue;
-    }
-
-    table{
-      width: 100%;
-      margin-top: 20px;
-      border-collapse: collapse;
-    }
-
-    table, th, td{
-      border: 1px solid gray;
-    }
-
-    th, td{
-      padding: 10px;
-      text-align: center;
-    }
-
-    th{
-      background: #007BFF;
-      color: white;
-    }
-
-    .delete-btn{
-      background: red;
-      padding: 5px 10px;
-    }
-
-    .delete-btn:hover{
-      background: darkred;
-    }
-
-  </style>
+  <title>Student Management System</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
   <div class="container">
 
-    <h1>Hostel Management System</h1>
+    <h1>🎓 Student Management System</h1>
 
-    <input type="text" id="name" placeholder="Enter Student Name">
+    <div class="form">
+      <input type="text" id="name" placeholder="Student Name">
+      <input type="text" id="course" placeholder="Course">
+      <input type="number" id="age" placeholder="Age">
 
-    <input type="text" id="room" placeholder="Enter Room Number">
-
-    <input type="text" id="course" placeholder="Enter Course">
-
-    <button onclick="addStudent()">
-      Add Student
-    </button>
+      <!-- CENTER BIG BUTTON -->
+      <button onclick="addStudent()">Add Student</button>
+    </div>
 
     <table>
-
       <thead>
         <tr>
           <th>Name</th>
-          <th>Room</th>
           <th>Course</th>
+          <th>Age</th>
           <th>Action</th>
         </tr>
       </thead>
 
       <tbody id="studentList"></tbody>
-
     </table>
 
   </div>
 
-  <script>
-
-    function addStudent(){
-
-      let name =
-      document.getElementById("name").value;
-
-      let room =
-      document.getElementById("room").value;
-
-      let course =
-      document.getElementById("course").value;
-
-      if(name === "" || room === "" || course === ""){
-        alert("Please fill all fields");
-        return;
-      }
-
-      let table =
-      document.getElementById("studentList");
-
-      let row =
-      document.createElement("tr");
-
-      row.innerHTML = `
-        <td>${name}</td>
-        <td>${room}</td>
-        <td>${course}</td>
-        <td>
-          <button class="delete-btn"
-          onclick="deleteStudent(this)">
-          Delete
-          </button>
-        </td>
-      `;
-
-      table.appendChild(row);
-
-      document.getElementById("name").value = "";
-      document.getElementById("room").value = "";
-      document.getElementById("course").value = "";
-    }
-
-    function deleteStudent(button){
-
-      button.parentElement.parentElement.remove();
-    }
-
-  </script>
-
+  <script src="script.js"></script>
 </body>
 </html>

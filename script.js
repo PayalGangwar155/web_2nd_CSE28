@@ -1,110 +1,46 @@
-let employees = [];
+let students = JSON.parse(localStorage.getItem("students")) || [];
 
-function addEmployee() {
+function addStudent() {
+  let name = document.getElementById("name").value;
+  let course = document.getElementById("course").value;
+  let age = document.getElementById("age").value;
 
-    let name = document.getElementById("name").value;
-    let empId = document.getElementById("empId").value;
-    let salary = parseFloat(document.getElementById("salary").value);
-    let dept = document.getElementById("dept").value;
+  if (name === "" || course === "" || age === "") {
+    alert("Please fill all fields");
+    return;
+  }
 
-    if (name === "" || empId === "" || isNaN(salary) || dept === "") {
-        alert("Please fill all fields properly");
-        return;
-    }
+  students.push({ name, course, age });
 
-    let employee = {
-        name: name,
-        id: empId,
-        salary: salary,
-        department: dept
-    };
+  localStorage.setItem("students", JSON.stringify(students));
 
-    employees.push(employee);
+  document.getElementById("name").value = "";
+  document.getElementById("course").value = "";
+  document.getElementById("age").value = "";
 
-    alert("Employee Added Successfully");
-
-    document.getElementById("name").value = "";
-    document.getElementById("empId").value = "";
-    document.getElementById("salary").value = "";
-    document.getElementById("dept").value = "";
+  displayStudents();
 }
 
-function displayEmployees() {
-
-    let output = document.getElementById("output");
-    output.innerHTML = "";
-
-    employees.forEach(emp => {
-        output.innerHTML += 
-        "Name: " + emp.name + 
-        " | ID: " + emp.id + 
-        " | Salary: " + emp.salary + 
-        " | Department: " + emp.department + 
-        "<br>";
-    });
+function deleteStudent(index) {
+  students.splice(index, 1);
+  localStorage.setItem("students", JSON.stringify(students));
+  displayStudents();
 }
 
-function filterSalary() {
+function displayStudents() {
+  let list = document.getElementById("studentList");
+  list.innerHTML = "";
 
-    let output = document.getElementById("output");
-    output.innerHTML = "";
-
-    let filtered = employees.filter(emp => emp.salary > 50000);
-
-    filtered.forEach(emp => {
-        output.innerHTML += 
-        emp.name + " - " + emp.salary + "<br>";
-    });
+  students.forEach((student, index) => {
+    list.innerHTML += `
+      <tr>
+        <td>${student.name}</td>
+        <td>${student.course}</td>
+        <td>${student.age}</td>
+        <td><button onclick="deleteStudent(${index})">Delete</button></td>
+      </tr>
+    `;
+  });
 }
 
-function totalSalary() {
-
-    let total = 0;
-
-    employees.forEach(emp => {
-        total += emp.salary;
-    });
-
-    document.getElementById("output").innerHTML = 
-    "Total Salary = " + total;
-}
-
-function averageSalary() {
-
-    if (employees.length === 0) {
-        document.getElementById("output").innerHTML = "No employees";
-        return;
-    }
-
-    let total = 0;
-
-    employees.forEach(emp => {
-        total += emp.salary;
-    });
-
-    let avg = total / employees.length;
-
-    document.getElementById("output").innerHTML = 
-    "Average Salary = " + avg;
-}
-
-function countDepartment() {
-
-    let deptCount = {};
-
-    employees.forEach(emp => {
-        if (deptCount[emp.department]) {
-            deptCount[emp.department]++;
-        } else {
-            deptCount[emp.department] = 1;
-        }
-    });
-
-    let output = "";
-
-    for (let dept in deptCount) {
-        output += dept + " : " + deptCount[dept] + "<br>";
-    }
-
-    document.getElementById("output").innerHTML = output;
-}
+displayStudents();
