@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sum of N Numbers</title>
+</head>
+<body>
+
+    <h2>Sum of N Numbers Calculator</h2>
+    
+    <input type="number" id="userInput" placeholder="Enter a number (N)">
+    <button onclick="calculateSum()">Calculate Sum</button>
+    
+    <p id="result"></p>
+
+    <script>
+        function calculateSum() {
+            
+            let n = parseInt(document.getElementById("userInput").value);
+            let sum = 0;
+
+    
+            if (isNaN(n) || n < 1) {
+                document.getElementById("result").innerHTML = "Please enter a positive integer.";
+                return;
+            }
+
+            
+            for (let i = 1; i <= n; i++) {
+                sum = sum + i; 
+            }
+
+    
+            document.getElementById("result").innerHTML = "The sum from 1 to " + n + " is: " + sum;
+        }
+    </script>
+
+</body>
+</html>
